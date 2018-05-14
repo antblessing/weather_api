@@ -1,0 +1,30 @@
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+<div class="container">
+    <%= form_tag weather_path, method: "get", class: "form-inline" do %>
+    <%= text_field_tag :city, nil, class: "form-control", placeholder: "City Name" %>
+    <%= select_tag :state, options_for_select(@states), :prompt => "State", class: "form-control" %>
+    <%= submit_tag "Check Weather", name: nil, class: "btn btn-primary" %>
+    <% end %>
+</div>
+
+<div>
+<% if @weather.present? %>
+  <h3><%= @weather.location %></h3>
+
+  <p>The temperature is:
+    <%= @weather.temp %></p>
+  <% if @cached %>
+  	<p>Cached response</p>
+  <% end %>
+</div>
+
+<% @weather.forecast.each do |day,index| %>
+	<div>
+		<h3><%= day['title'] %></h3>
+		<small><%= day['fcttext'] %></small>
+	</div>
+<% end %>
+
+<% end %>
